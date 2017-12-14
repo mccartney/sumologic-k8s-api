@@ -1,0 +1,26 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: my-app
+  labels:
+    app: my-app
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name:  sumologic-k8s-api
+        image: frankreno/sumologic-k8s-api:0.0.1
+        imagePullPolicy: "Always"
+        env:
+        - name: SUMO_HTTP_URL
+          value: <INSERT_URL_HERE>
+        - name: K8S_API_URL
+          value: http://127.0.0.1:8001
+      - name:  kubectl
+        image: gcr.io/google_containers/kubectl:v1.0.7
+        command: ["/kubectl"]
+        args: ["proxy", "-p", "8001"]

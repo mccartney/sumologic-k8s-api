@@ -1,20 +1,19 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: my-app
+  name: sumologic-k8s-api
   labels:
-    app: my-app
+    app: sumologic-k8s-api
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: my-app
+        app: sumologic-k8s-api
     spec:
       containers:
       - name:  sumologic-k8s-api
-        image: frankreno/sumologic-k8s-api:0.0.1
-        imagePullPolicy: "Always"
+        image: frankreno/sumologic-k8s-api:latest
         env:
         - name: SUMO_HTTP_URL
           value: <INSERT_URL_HERE>

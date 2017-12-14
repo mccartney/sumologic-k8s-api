@@ -32,7 +32,8 @@ else:
     sys.exit(os.EX_CONFIG)
 
 ''' Default to 60 seconds'''
-RUN_EVERYTIME = int(os.environ.get('RUN_TIME', 60))
+print(os.getenv('RUN_TIME', 60))
+RUN_EVERYTIME = int(os.getenv('RUN_TIME', 60))
 
 
 def fetch_push():

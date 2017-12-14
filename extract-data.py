@@ -10,11 +10,6 @@ import sched
 import sys
 import time
 
-from kubernetes import client, config
-
-config.load_kube_config()
-v1 = client.CoreV1Api()
-
 s = sched.scheduler(time.time, time.sleep)
 if os.environ.get('SUMO_HTTP_URL') is not None:
     if os.environ.get('SUMO_HTTP_URL'):

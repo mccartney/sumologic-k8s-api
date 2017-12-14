@@ -1,10 +1,10 @@
-FROM python:3
+FROM python:3.6.3
 
 RUN mkdir /opt/sumo
 
-ENV K8S_API_URL = ""
-ENV SUMO_HTTP_URL = ""
-ENV RUN_TIME = 60
+ENV K8S_API_URL ""
+ENV SUMO_HTTP_URL ""
+ENV RUN_TIME 60
 
 RUN pip install --upgrade pip requests
 

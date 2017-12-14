@@ -46,5 +46,5 @@ def fetch_push():
         requests.post(url=SUMO_COLLECTOR_URL, data=json.dumps(pod))
 
 
-s.enter(RUN_EVERYTIME, 1, fetch_push, (s,))
+s.enter(RUN_EVERYTIME, 1, fetch_push, ())
 s.run()

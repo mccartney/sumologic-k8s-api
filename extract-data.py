@@ -3,6 +3,7 @@
 This script will extract useful information about your Kubernetes cluster that is not available in the logs, but is
 available in the Kubernetes API.
 """
+import logging
 import json
 import requests
 import os
@@ -15,20 +16,20 @@ if os.environ.get('SUMO_HTTP_URL') is not None:
     if os.environ.get('SUMO_HTTP_URL'):
         SUMO_COLLECTOR_URL = os.environ.get('SUMO_HTTP_URL')
     else:
-        print("Collector was defined but is Empty")
+        logging.error("Collector was defined but is Empty")
         sys.exit(os.EX_CONFIG) 
 else:
-    print("NO Collector was Defined")
+    logging.error("NO Collector was Defined")
     sys.exit(os.EX_CONFIG)
 
 if os.environ.get('K8S_API_URL') is not None:
     if os.environ.get('K8S_API_URL'):
         K8S_API_URL = os.environ.get('K8S_API_URL')
     else:
-        print("K8s_API_URL was defined but is Empty")
+        logging.error("K8s_API_URL was defined but is Empty")
         sys.exit(os.EX_CONFIG)
 else:
-    print("No Kubernetes API defined")
+    logging.error("No Kubernetes API defined")
     sys.exit(os.EX_CONFIG)
 
 ''' Default to 60 seconds'''
@@ -36,13 +37,16 @@ RUN_EVERYTIME = int(os.getenv('RUN_TIME', 60))
 
 
 def fetch_push():
+    logging.info("getting data for nodes")
     nodes = requests.get(url="{}/api/v1/nodes".format(K8S_API_URL)).json()
     for node in nodes["items"]:
+        logging.info("pushing to sumo")
         requests.post(url=SUMO_COLLECTOR_URL, data=json.dumps(node))
 
+    logging.info("getting data for nodes")
     pods = requests.get(url="{}/api/v1/pods".format(K8S_API_URL)).json()
-
     for pod in pods["items"]:
+        logging.info("pushing to sumo")
         requests.post(url=SUMO_COLLECTOR_URL, data=json.dumps(pod))
 
 

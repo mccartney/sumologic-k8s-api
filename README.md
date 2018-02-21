@@ -21,15 +21,14 @@ The script can be configured with the following environment variables:
 | --------        | -----------                                            | -------- | ------------- |
 | `SUMO_HTTP_URL` | The URL for the HTTP source created in the first step. | YES      |               |
 | `K8S_API_URL`   | The URL for the Kubernetes API                         | YES      |               | 
-| `RUN_TIME`      | How often the script should run in seconds             | NO       | 60            |
 
 ### Run On Node
 
 You can simply add the script to one of your nodes and set it up via cron.  However, if the node dies so does your script unless baked into the image.
 
-### Run As Deployment
+### Run As CronJob
 
-An example deployment file has been provided. This deployment runs a sidecar container that starts `kubectl proxy` with the default port of 8001.  The deployment has the default `RUN_TIME` of 60 seconds and you can add the environment variable if you want to customize.  The `K8S_API_URL` variable has been set based on the `kubectl` sidecar container.
+An example cronjob file has been provided. This deployment runs a sidecar container that starts `kubectl proxy` with the default port of 8001.  The cronjob has a default schedule of running every 5 minutes, you can tune as needed.  The `K8S_API_URL` variable has been set based on the `kubectl` sidecar container.
 
 ## License
 Released under Apache 2.0 License.

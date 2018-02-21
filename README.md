@@ -28,7 +28,7 @@ You can simply add the script to one of your nodes and set it up via cron.  Howe
 
 ### Run As CronJob
 
-An example cronjob file has been provided. This deployment runs a sidecar container that starts `kubectl proxy` with the default port of 8001.  The cronjob has a default schedule of running every 5 minutes, you can tune as needed.  The `K8S_API_URL` variable has been set based on the `kubectl` sidecar container.
+An example cronjob file has been provided. This cronjob runs a sidecar container that starts `kubectl proxy` with the default port of 8001.  The cronjob has a default schedule of running every 5 minutes, you can tune as needed.  The `K8S_API_URL` variable has been set based on the `kubectl` sidecar container.
 
 ## License
 Released under Apache 2.0 License.

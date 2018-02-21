@@ -19,7 +19,7 @@ spec:
             image: frankreno/sumologic-k8s-api:latest
             env:
             - name: SUMO_HTTP_URL
-              value: https://endpoint1.collection.us2.sumologic.com/receiver/v1/http/ZaVnC4dhaV0o_ag5hvobSD66ErfB6iS_xYiLF29qcmn8BEpUIEHFC8t1aXmSj8uggLPFrMBoqdLN19s7OHxMjh068PKu9aEfBiDn3deZ4tUKJ0ARhzapCw==
+              value: <INSERT_URL_HERE>
             - name: K8S_API_URL
               value: http://127.0.0.1:8001
           - name:  kubectl

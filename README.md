@@ -24,11 +24,11 @@ The script can be configured with the following environment variables:
 
 ### Run On Node
 
-You can simply add the script to one of your nodes and set it up via cron.  However, if the node dies so does your script unless baked into the image.
+You can simply add the script to one of your nodes and set it up via crontab.  However, if the node dies so does your script unless baked into the image.
 
 ### Run As CronJob
 
-An example cronjob file has been provided. This cronjob runs a sidecar container that starts `kubectl proxy` with the default port of 8001.  The cronjob has a default schedule of running every 5 minutes, you can tune as needed.  The `K8S_API_URL` variable has been set based on the `kubectl` sidecar container.
+Example cronjob files has been provided. If you are using RBAC, you should use the `sumologic-k8s-api-cronjob-rbac.yaml`, other wise you can use `sumologic-k8s-api-cronjob.yaml`. This cronjob runs a sidecar container that starts `kubectl proxy` with the default port of 8001.  The cronjob has a default schedule of running every 5 minutes, you can tune as needed.  The `K8S_API_URL` variable has been set based on the `kubectl` sidecar container.
 
 ## License
 Released under Apache 2.0 License.

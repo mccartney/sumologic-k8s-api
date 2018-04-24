@@ -26,36 +26,3 @@ spec:
             image: gcr.io/google_containers/kubectl:v1.0.7
             command: ["/kubectl"]
             args: ["proxy", "-p", "8001"]
----
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: ClusterRole
-metadata:
-  name: sumologic-k8s-api
-  labels:
-    app: sumologic-k8s-api
-rules:
-- apiGroups: [""]
-  resources: ["nodes", "pods"]
-  verbs: ["get", "list"]
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: sumologic-k8s-api
-  labels:
-    app: sumologic-k8s-api
----
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: ClusterRoleBinding
-metadata:
-  name: sumologic-k8s-api
-  labels:
-    app: sumologic-k8s-api
-subjects:
-- kind: ServiceAccount
-  name: sumologic-k8s-api
-  namespace: default
-roleRef:
-  kind: ClusterRole
-  name: sumologic-k8s-api
-  apiGroup: rbac.authorization.k8s.io

@@ -17,11 +17,13 @@ In this step you create, on the Sumo service, an HTTP endpoint to receive your l
 ### Deploy the script as you want to
 The script can be configured with the following environment variables:
 
-| Variable        | Description                                            | Required | DEFAULT VALUE |
-| --------        | -----------                                            | -------- | ------------- |
-| `SUMO_HTTP_URL` | The URL for the HTTP source created in the first step. | YES      |               |
-| `K8S_API_URL`   | The URL for the Kubernetes API                         | YES      |               | 
-
+| Variable            | Description                                            | Required | DEFAULT VALUE |
+| --------            | -----------                                            | -------- | ------------- |
+| `SUMO_HTTP_URL`     | The URL for the HTTP source created in the first step. | YES      |               |
+| `K8S_API_URL`       | The URL for the Kubernetes API                         | YES      |               | 
+| `X-Sumo-Name`       | Desired source name.                                   | NO       |               | 
+| `X-Sumo-Host`       | Desired host name.                                     | NO       |               | 
+| `X-Sumo-Category`   | Desired source category.                               | NO       |               | 
 ### Run On Node
 
 You can simply add the script to one of your nodes and set it up via crontab.  However, if the node dies so does your script unless baked into the image.

@@ -46,7 +46,7 @@ class SumoAPILogger():
             sys.exit(os.EX_CONFIG)
 
         log.info("getting data for nodes")
-        nodes = requests.get(url="{}/api/v1/nodes".format(K8S_API_URL)).json()
+        nodes = requests.get(url="{}/api/v1/nodes".format(self.k8s_api_url)).json()
         for node in nodes["items"]:
             log.info("pushing to sumo")
             requests.post(url=self.collector_url,
@@ -54,7 +54,7 @@ class SumoAPILogger():
                           headers=self.headers)
 
         log.info("getting data for nodes")
-        pods = requests.get(url="{}/api/v1/pods".format(K8S_API_URL)).json()
+        pods = requests.get(url="{}/api/v1/pods".format(self.k8s_api_url)).json()
         for pod in pods["items"]:
             log.info("pushing to sumo")
             requests.post(url=self.collector_url,

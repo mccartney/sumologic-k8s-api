@@ -53,7 +53,7 @@ class SumoAPILogger():
                           data=json.dumps(node),
                           headers=self.headers)
 
-        log.info("getting data for nodes")
+        log.info("getting data for pods")
         pods = requests.get(url="{}/api/v1/pods".format(self.k8s_api_url)).json()
         for pod in pods["items"]:
             log.info("pushing to sumo")

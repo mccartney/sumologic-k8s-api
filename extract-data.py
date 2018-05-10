@@ -12,34 +12,56 @@ import sys
 logging.basicConfig(level="INFO", format="%(asctime)s [level=%(levelname)s] [line=%(lineno)d]: %(message)s")
 log = logging.getLogger(__name__)
 
-if os.environ.get('SUMO_HTTP_URL') is not None:
-    if os.environ.get('SUMO_HTTP_URL'):
-        SUMO_COLLECTOR_URL = os.environ.get('SUMO_HTTP_URL')
-    else:
-        log.error("Collector was defined but is Empty")
-        sys.exit(os.EX_CONFIG)
-else:
-    log.error("NO Collector was Defined")
-    sys.exit(os.EX_CONFIG)
 
-if os.environ.get('K8S_API_URL') is not None:
-    if os.environ.get('K8S_API_URL'):
-        K8S_API_URL = os.environ.get('K8S_API_URL')
-    else:
-        log.error("K8s_API_URL was defined but is Empty")
-        sys.exit(os.EX_CONFIG)
-else:
-    log.error("No Kubernetes API defined")
-    sys.exit(os.EX_CONFIG)
+class SumoAPILogger():
 
-log.info("getting data for nodes")
-nodes = requests.get(url="{}/api/v1/nodes".format(K8S_API_URL)).json()
-for node in nodes["items"]:
-    log.info("pushing to sumo")
-    requests.post(url=SUMO_COLLECTOR_URL, data=json.dumps(node))
+    def __init__(self):
+        self.collector_url = None
+        self.k8s_api_url = None
+        self.headers = {}
 
-log.info("getting data for nodes")
-pods = requests.get(url="{}/api/v1/pods".format(K8S_API_URL)).json()
-for pod in pods["items"]:
-    log.info("pushing to sumo")
-    requests.post(url=SUMO_COLLECTOR_URL, data=json.dumps(pod))
+    def get_headers(self):
+        SUMO_HEADERS = ['X-Sumo-Name', 'X-Sumo-Host', 'X-Sumo-Category']
+        for sh in SUMO_HEADERS:
+            value = os.environ.get(sh, None)
+            if value is not None:
+                self.headers[sh] = value
+
+    def run(self):
+        self.collector_url = os.environ.get('SUMO_HTTP_URL', None)
+        self.k8s_api_url = os.environ.get('K8S_API_URL', None)
+        self.get_headers()
+
+        if self.collector_url is None:
+            log.error("NO Collector was Defined")
+            sys.exit(os.EX_CONFIG)
+        if os.environ.get('SUMO_HTTP_URL') is False:
+            log.error("Collector was defined but is Empty")
+            sys.exit(os.EX_CONFIG)
+        if self.k8s_api_url is None:
+            log.error("No Kubernetes API defined")
+            sys.exit(os.EX_CONFIG)
+        if self.k8s_api_url is False:
+            log.error("K8s_API_URL was defined but is Empty")
+            sys.exit(os.EX_CONFIG)
+
+        log.info("getting data for nodes")
+        nodes = requests.get(url="{}/api/v1/nodes".format(self.k8s_api_url)).json()
+        for node in nodes["items"]:
+            log.info("pushing to sumo")
+            requests.post(url=self.collector_url,
+                          data=json.dumps(node),
+                          headers=self.headers)
+
+        log.info("getting data for pods")
+        pods = requests.get(url="{}/api/v1/pods".format(self.k8s_api_url)).json()
+        for pod in pods["items"]:
+            log.info("pushing to sumo")
+            requests.post(url=self.collector_url,
+                          data=json.dumps(pod),
+                          headers=self.headers)
+
+
+if __name__ == '__main__':
+    SumoAPILogger = SumoAPILogger()
+    SumoAPILogger.run()

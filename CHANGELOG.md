@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. 
 
+<a name="0.0.3"></a>
+# [0.0.3] (2018-06-29)
+
+### Features
+* Added error checking to kube API and Sumo Logging requests.  If a request to either API fails an error
+is logged.  The http status code is included in the error message to assist with diagnostics.
+
 <a name="0.0.2"></a>
 # [0.0.2] (2018-05-08)
 

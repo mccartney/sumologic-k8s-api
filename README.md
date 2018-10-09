@@ -32,5 +32,19 @@ You can simply add the script to one of your nodes and set it up via crontab.  H
 
 Example cronjob files has been provided. If you are using RBAC, you should use the `sumologic-k8s-api-cronjob-rbac.yaml`, other wise you can use `sumologic-k8s-api-cronjob.yaml`. This cronjob runs a sidecar container that starts `kubectl proxy` with the default port of 8001.  The cronjob has a default schedule of running every 5 minutes, you can tune as needed.  The `K8S_API_URL` variable has been set based on the `kubectl` sidecar container.
 
+## Running The CronJob in a different Namespace
+
+The current YAML configuration assumes you are going to run the CronJob in the default namespace.  If you plan to run it in a different namespace, you need to update the [ClusterRoleBinding](https://github.com/frankreno/sumologic-k8s-api/blob/master/sumologic-k8s-api-cronjob-rbac.yaml#L58) to indicate what Namespace you wish to run.
+
+## Common Errors
+
+### SSL: CERTIFICATE_VERIFY_FAILED
+
+This CronJob runs `kubectl proxy` in a side car container, which allows the script to communicate with the API Server over `localhost`.  You should need to change the `K8S_API_URL` in most cases.  If you are getting this error, ensure you leave `K8S_API_URL` as the default value.
+
+### Unable to access the API, forbidden error messages
+
+This likely means you are running the CronJob in a namespace other than `default`, see the above section on the changes needed to run the CronJob in a different namespace.
+
 ## License
 Released under Apache 2.0 License.

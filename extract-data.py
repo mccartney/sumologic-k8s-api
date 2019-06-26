@@ -66,12 +66,12 @@ class SumoAPILogger():
                           data=json.dumps(node),
                           headers=self.headers)
             if r.status_code != 200:
-                self.push_error("error pushing to sumo.  Recieved status code: {}".format(r.status_code))
+                self.push_error("error pushing to sumo.  Received status code: {}".format(r.status_code))
 
         log.info("getting data for pods")
         r = requests.get(url="{}/api/v1/pods".format(self.k8s_api_url))
         if r.status_code != 200:
-            self.get_error("error getting data.  Recieved status code: {}".format(r.status_code))
+            self.get_error("error getting data.  Received status code: {}".format(r.status_code))
         pods = r.json()
         for pod in pods["items"]:
             log.info("pushing pod data to sumo")
@@ -79,7 +79,8 @@ class SumoAPILogger():
                           data=json.dumps(pod),
                           headers=self.headers)
             if r.status_code != 200:
-                self.push_error("error pushing to sumo.  Received status code: {}".format(r.status_code))
+                self.push_error("error pushing to sumo.  
+                                ved status code: {}".format(r.status_code))
 
 if __name__ == '__main__':
     SumoAPILogger = SumoAPILogger()
